@@ -4,7 +4,6 @@ const app = express();
 const port = 8080;
 
 
-//
 // Configurer la connexion à la base de données
 const sequelize = new Sequelize('nom_base_de_donnees', 'nom_utilisateur', 'mot_de_passe', {
     host: 'localhost',
