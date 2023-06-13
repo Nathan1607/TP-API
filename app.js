@@ -1,16 +1,25 @@
 const express = require('express');
-import { Sequelize, DataTypes } from 'sequelize';
+const { Sequelize } = require('sequelize');
 const app = express();
 const port = 8080;
 
 
-// Configurer la connexion à la base de données
-const sequelize = new Sequelize('nom_base_de_donnees', 'nom_utilisateur', 'mot_de_passe', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port: 3306, // Port par défaut pour MySQL
-    // Autres options de configuration
-  });
+const sequelize = new Sequelize('liveAddict', 'root', 'rootpwd', {
+  host: 'localhost',
+  dialect: 'mariadb',
+  port: 4000,
+});
+
+async function connectToDatabase() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+
+connectToDatabase();
 
 app.get('/', (req, res) => {
     res.send('Hello world !!');
