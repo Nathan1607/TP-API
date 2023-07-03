@@ -157,6 +157,7 @@ Ville.hasMany(Concert, { foreignKey: 'idVille' });
 Visiteur.belongsTo(Ville, { foreignKey: 'idVille' });
 Ville.hasMany(Visiteur, { foreignKey: 'idVille' });
 
+
 // Configuration de la session
 app.use(
   session({
@@ -210,19 +211,22 @@ app.get('/auth/openid/callback', async (req, res) => {
       throw new Error('Invalid state');
     }
 
-    // Cbloode d'autorisation contre un jeton d'accès et d'autres informations
+    // Échangez le code d'autorisation contre un jeton d'accès et d'autres informations
     const tokenSet = await client.callback(redirectURL, params, {
       state: req.session.openidState,
       nonce: generateRandomNonce()
     });
 
-    // Informations du jeton pour authentifier l'utilisateur
+    // Utilisez les informations du jeton pour authentifier l'utilisateur
     const userInfo = await client.userinfo(tokenSet.access_token);
 
-    // Utilisateur authentifié dans la session
+    // Effectuez les actions nécessaires avec les informations de l'utilisateur
+    // Par exemple, enregistrez l'utilisateur dans la base de données
+
+    // Marquez l'utilisateur comme authentifié dans la session
     req.session.isAuthenticated = true;
 
-    // Redirection après l'authentification réussie
+    // Redirigez l'utilisateur vers la page souhaitée après l'authentification réussie
     res.redirect('/visiteur');
   } catch (error) {
     console.error('Erreur lors du rappel OpenID:', error);
